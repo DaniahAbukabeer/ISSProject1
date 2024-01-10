@@ -1,4 +1,4 @@
-body{
+body {
     background-color: rgb(27, 38, 79);
     margin: 0;
     height: 100vh;
@@ -7,18 +7,21 @@ body{
     justify-content: center;
 }
 
-div.container{
-    background-color: rgba(245, 243, 245,0.5);
+div.container {
+    background-color: rgba(245, 243, 245, 0.5);
     align-content: center;
     padding: 20px;
     border-radius: 10px;
     backdrop-filter: blur(10px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-   
+
 }
 
-button{
+button {
     margin-top: 3px;
     margin-bottom: 2px;
 }
 
+h3 {
+    color: rgb(27, 38, 79);
+}

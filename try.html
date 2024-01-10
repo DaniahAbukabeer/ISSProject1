@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js"></script>
+
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<style>
+    h3 {
+        margin-left: 5px;
+        color: rgb(27, 38, 79);
+    }
+
+    h4 {
+        margin-left: 8px;
+        color: rgb(27, 38, 79);
+    }
+
+    body {
+        background-color: rgb(27, 38, 79);
+        margin: 0;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    button {
+        color: aliceblue;
+        background-color: rgb(27, 38, 79);
+        margin: 4px 4px 0px 0px;
+    }
+
+    button:hover {
+        color: rgb(27, 38, 79);
+        /* make the buttons pink */
+        background-color: aliceblue;
+    }
+
+    input {
+        margin: 2px;
+    }
+</style>
+
+<body>
+    <div class="container">
+        <h3 class="title">
+            RSA keypair generator
+        </h3>
+        <h4 class="subtitle">
+            (Encryption and decryption)
+        </h4>
+        <form id="mainValues">
+            <div class="mb-3 row my-5">
+                <h4 class="mx-2">Enter the needed values</h4>
+                <div class="col-md-4">
+                    <input type="number" class="form-control" name="p" id="p" placeholder="Enter the P value..." />
+                </div>
+                <div class="col-md-4">
+
+                    <input type="number" name="q" id="q" class="form-control" placeholder="Enter the Q value...">
+
+                </div>
+                <div class="col-md-4">
+                    <input type="number" name="n" id="n" class="form-control" placeholder="Enter the N value...">
+
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <div class="offset-sm-4 col-sm-8">
+                    <button class="btn btn-dark" onclick="MainForm('p','q','n')">
+                        submti
+                    </button>
+                    <button type="reset" class="btn btn-danger">Clear</button>
+                </div>
+            </div>
+        </form>
+        <form id="encryptionForm">
+
+            <div class="row mb-3 my-4">
+                <h4 class="subtitle">Enter text to encrypte it</h4>
+                <div class="col-md-4">
+                    <input type="text" name="plainText" id="plainText" class="form-control"
+                        placeholder="Enter the text to Encrypte it...">
+                </div>
+                <div class="col-md-4">
+                    <input type="text" name="cyperText" id="cyperText" class="form-control" disabled
+                        placeholder="The Encrypted Text">
+                </div>
+            </div>
+            <button class="btn btn-dark" onclick="Encrypte('plainText','cyperText')">Encrypte</button>
+            <button type="reset" class="btn btn-danger">Clear</button>
+        </form>
+        <form id="decryptionForm">
+
+            <div class="row mb-3 my-4">
+                <h4 class="subtitle">Enter text to Decrypte it</h4>
+                <div class="col-md-4">
+                    <input type="text" name="plainText" id="plainText" class="form-control"
+                        placeholder="Enter the text to Decrypte it...">
+                </div>
+                <div class="col-md-4">
+                    <input type="text" name="cyperText" id="cyperText" class="form-control" disabled
+                        placeholder="The Decrypted Text">
+                </div>
+            </div>
+            <button class="btn btn-dark">Decrypte</button>
+            <button type="reset" class="btn btn-danger">Clear</button>
+        </form>
+        <!-- <fieldset class="mb-3 row">
+            <legend
+                class="col-form-legend col-4"
+            >
+                Group name
+            </legend>
+            <div
+                class="col-8"
+            >
+                you can use radio and checkboxes here
+            </div>
+        </fieldset> -->
+    </div>
+
+
+
+
+    <!-- 
+    <div class="container d-flex justify-content-center">
+       <form method="post">
+        bs5-form-grid
+       </form>
+        <div >
+            <h3 >heeeyyy</h3>
+        </div>
+
+    </div> -->
+    <!-- 
+    <script>
+        var p;
+        var q;
+        var n;
+        var cyperText;
+        var plainText;
+
+        function MainForm(pval, qval, nval) {
+            p = document.getElementById(pval).value;
+            q = document.getElementById(qval).value;
+            n = document.getElementById(nval).value;
+        }
+
+
+        function Encrypte(plainTextValue, outputId) {
+            plainText = plainTextValue;
+
+
+            DisplayOutPut(outputId, plainText)
+        }
+
+        function Decrypte(cyperTextValue) {
+
+            cyperText = cyperTextValue;
+        }
+
+
+        function DisplayOutPut(feildId, outPut) {
+
+            var temp = document.getElementById(feildId);
+            temp.nodeValue = outPut;
+        }
+    </script> -->
+</body>
+
+</html>

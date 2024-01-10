@@ -1,96 +1,144 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="script.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simple RSA Key Pair Generator and Encrypt/Decrypt</title>
 </head>
+
 <body>
-<div class="container">
-    <h3 class="title">
-        RSA keypair generator 
-    </h3>
-    <h4 class="subtitle">
-        (Encryption and decryption)
-    </h4>
-    <form>
-        <div class="mb-3 row my-5">
-            <h4 class="mx-2">Enter the needed values</h4>
-            <div class="col-md-4">
-                <input type="number" class="form-control" name="p"  id="p" placeholder="Enter the P value..."/>
-            </div>
-            <div class="col-md-4">
 
-                <input type="number"  name="q" id="q" class="form-control" placeholder="Enter the Q value...">
+  <h1>Simple RSA Key Pair Generator and Encrypt/Decrypt</h1>
 
-            </div>
-            <div class="col-md-4">
-                <input type="number" name="n" id="n" class="form-control" placeholder="Enter the N value...">
+  <!-- Key Generation Section -->
+  <section>
+    <h2>Key Generation</h2>
+    <label for="p">Enter prime number P:</label>
+    <input type="text" id="p">
+    <br>
+    <label for="q">Enter prime number Q:</label>
+    <input type="text" id="q">
+    <br>
+    <label for="n">Enter value of N (optional, leave empty to calculate):</label>
+    <input type="text" id="n">
+    <br>
+    <button onclick="generateKeys()">Generate Keys</button>
+  </section>
 
-            </div>
-        </div>
-        <div class="mb-3 row" style="margin-top: 8px;">
-            <div class="offset-sm-4 col-sm-8">
-                <button type="submit" class="btn btn-dark">
-                    submti
-                </button>
-            </div>
-        </div>
-    </form>
-    <form>
-        
-        <div class="row mb-3 my-4">
-            <h4 class="subtitle">Enter text to encrypte it</h4>
-            <div class="col-md-4">
-                <input type="text" name="plainText" id="plainText" class="form-control" placeholder="Enter the text to Encrypte it...">
-            </div>
-            <div class="col-md-4">
-                <input type="text" name="cyperText" id="cyperText" class="form-control" disabled placeholder="The text Encrypted">
-            </div>
-        </div>
-        <button type="submit" class="btn btn-dark">Encrypte</button>
-    </form>
-        <div class="row mb-3 my-4">
-            <h4 class="subtitle">Enter text to Decrypte it</h4>
-            <div class="col-md-4">
-                <input type="text" name="plainText" id="plainText" class="form-control" placeholder="Enter the text to Decrypte it...">
-            </div>
-            <div class="col-md-4">
-                <input type="text" name="cyperText" id="cyperText" class="form-control" disabled placeholder="The text Decrypted">
-            </div>
-        </div>
-        <!-- <fieldset class="mb-3 row">
-            <legend
-                class="col-form-legend col-4"
-            >
-                Group name
-            </legend>
-            <div
-                class="col-8"
-            >
-                you can use radio and checkboxes here
-            </div>
-        </fieldset> -->
-</div>
+  <!-- Encryption Section -->
+  <section>
+    <h2>Encryption</h2>
+    <label for="plaintext">Enter text to encrypt:</label>
+    <input type="text" id="plaintextToEncrypt">
+    <br>
+    <button onclick="encrypt()">Encrypt</button>
+    <p>Encrypted Text: <span id="encryptedText"></span></p>
+  </section>
+
+  <!-- Decryption Section -->
+  <section>
+    <h2>Decryption</h2>
+    <label for="ciphertext">Enter text to decrypt:</label>
+    <input type="text" id="ciphertextToDecrypt">
+    <br>
+    <button onclick="decrypt()">Decrypt</button>
+    <p>Decrypted Text: <span id="decryptedText"></span></p>
+  </section>
+
+  <script>
+    let publicKey, privateKey;
+
+    function generateKeys() {
+      const p = document.getElementById('p').value;
+      const q = document.getElementById('q').value;
+      let n = document.getElementById('n').value;
+
+      if (!p || !q) {
+        alert("Please enter values for both P and Q.");
+        return;
+      }
+
+      n = n ? BigInt(n) : BigInt(p) * BigInt(q);
+
+      const phi = (BigInt(p) - 1n) * (BigInt(q) - 1n);
+      const e = BigInt(65537);  // Commonly used public exponent
+
+      publicKey = { e, n };
+      privateKey = modInverse(e, phi);
+
+      alert('Keys generated successfully!');
+    }
+
+    function encrypt() {
+      const plaintext = document.getElementById('plaintextToEncrypt').value;
+      const encrypted = encryptText(plaintext, publicKey.e, publicKey.n);
+      document.getElementById('encryptedText').textContent = encrypted;
+    }
+
+    function decrypt() {
+      const ciphertext = document.getElementById('ciphertextToDecrypt').value;
+      const decrypted = decryptText(ciphertext, privateKey, publicKey.n);
+      document.getElementById('decryptedText').textContent = decrypted;
+    }
+
+    // Modular exponentiation for encryption
+    function encryptText(plaintext, e, n) {
+      let result = '';
+      for (let i = 0; i < plaintext.length; i++) {
+        const charCode = plaintext.charCodeAt(i);
+        const encryptedCharCode = modPow(BigInt(charCode), e, n);
+        result += encryptedCharCode.toString(16) + ' ';
+      }
+      return result.trim();
+    }
+
+    // Modular exponentiation for decryption
+    function decryptText(ciphertext, d, n) {
+      let result = '';
+      const parts = ciphertext.split(' ');
+      for (let i = 0; i < parts.length; i++) {
+        const encryptedCharCode = BigInt('0x' + parts[i]);
+        const decryptedCharCode = modPow(encryptedCharCode, d, n);
+        result += String.fromCharCode(Number(decryptedCharCode));
+      }
+      return result;
+    }
 
 
+    // Modular exponentiation
+    function modPow(base, exponent, modulus) {
+      let result = BigInt(1);
+      base = base % modulus;
 
+      while (exponent > 0) {
+        if (exponent % 2n === 1n) {
+          result = (result * base) % modulus;
+        }
 
-<!-- 
-    <div class="container d-flex justify-content-center">
-       <form method="post">
-        bs5-form-grid
-       </form>
-        <div >
-            <h3 >heeeyyy</h3>
-        </div>
+        exponent = exponent >> 1n;
+        base = (base * base) % modulus;
+      }
 
-    </div> -->
+      return result;
+    }
+
+    // Modular multiplicative inverse
+    function modInverse(a, m) {
+      const m0 = m;
+      let x0 = 0n;
+      let x1 = 1n;
+
+      while (a > 1n) {
+        const q = a / m;
+        [a, m] = [m, a % m];
+        [x0, x1] = [x1 - q * x0, x0];
+      }
+
+      return x1 < 0n ? x1 + m0 : x1;
+    }
+  </script>
+
 </body>
+
 </html>
