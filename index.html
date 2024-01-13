@@ -4,47 +4,137 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Simple RSA Key Pair Generator and Encrypt/Decrypt</title>
+  <title>RSA KeyPair Generator</title>
+
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
+
+<style>
+  h3 {
+    margin-left: 5px;
+    color: rgb(27, 38, 79);
+    font-weight: bolder;
+  }
+
+  h4 {
+    margin-left: 8px;
+    color: rgb(27, 38, 79);
+    font-weight: bold;
+  }
+
+  body {
+    background-color: rgb(27, 38, 79);
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: aliceblue;
+  }
+
+  button {
+    color: aliceblue;
+    background-color: rgb(27, 38, 79);
+    margin: 4px 4px 0px 0px;
+  }
+
+  button:hover {
+    color: rgb(27, 38, 79);
+    /* make the buttons pink */
+    background-color: aliceblue;
+  }
+
+  input {
+    margin: 2px;
+    color: rgb(27, 38, 79);
+  }
+
+  p {
+    font-weight: bolder;
+    color: rgb(86, 10, 57);
+  }
+</style>
+
 
 <body>
 
-  <h1>Simple RSA Key Pair Generator and Encrypt/Decrypt</h1>
 
   <!-- Key Generation Section -->
-  <section>
-    <h2>Key Generation</h2>
-    <label for="p">Enter prime number P:</label>
-    <input type="text" id="p">
-    <br>
-    <label for="q">Enter prime number Q:</label>
-    <input type="text" id="q">
-    <br>
-    <label for="n">Enter value of N (optional, leave empty to calculate):</label>
-    <input type="text" id="n">
-    <br>
-    <button onclick="generateKeys()">Generate Keys</button>
-  </section>
+  <div class="container mx-3">
 
-  <!-- Encryption Section -->
-  <section>
-    <h2>Encryption</h2>
-    <label for="plaintext">Enter text to encrypt:</label>
-    <input type="text" id="plaintextToEncrypt">
-    <br>
-    <button onclick="encrypt()">Encrypt</button>
-    <p>Encrypted Text: <span id="encryptedText"></span></p>
-  </section>
+    <h3>RSA KeyPair Generator</h3>
+    <section>
+      <div class=" row my-5">
 
-  <!-- Decryption Section -->
-  <section>
-    <h2>Decryption</h2>
-    <label for="ciphertext">Enter text to decrypt:</label>
-    <input type="text" id="ciphertextToDecrypt">
-    <br>
-    <button onclick="decrypt()">Decrypt</button>
-    <p>Decrypted Text: <span id="decryptedText"></span></p>
-  </section>
+        <h4>Key Generation</h4>
+        <div class="col-md-4">
+
+          <label for="p">Enter prime number P:</label>
+          <input type="text" class="form-control" id="p" placeholder="The P valuse...">
+        </div>
+        <div class="col-md-4">
+
+          <label for="q">Enter prime number Q:</label>
+          <input type="text" class="form-control" id="q" placeholder="The Q value...">
+        </div>
+        <div class="col-md-4">
+
+          <label for="n">Enter value of N (optional, leave empty to calculate):</label>
+          <input type="text" class="form-control" id="n" placeholder="The N value...">
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <div class="offeset-sm-4 col-sm-8">
+
+          <button class="btn btn-dark" onclick="generateKeys()">Generate Keys</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Encryption Section -->
+    <section>
+      <div class="row mb-3 my-3">
+        <h4>Encryption</h4>
+
+
+        <div class="col-md-6">
+
+          <label for="plaintext">Enter text to encrypt:</label>
+          <input type="text" class="form-control" placeholder="Text to Encrypt..." id="plaintextToEncrypt">
+          <button class="btn btn-dark" onclick="encrypt()">Encrypt</button>
+
+        </div>
+        <div class="col-md-6">
+          <br>
+          <p>Encrypted Text: <span id="encryptedText"></span></p>
+
+          <br>
+        </div>
+      </div>
+    </section>
+
+    <!-- Decryption Section -->
+    <section>
+      <div class="row mb-3 my-4">
+        <h4>Decryption</h4>
+        <div class="col-md-6">
+          <label for="ciphertext">Enter text to decrypt:</label>
+
+          <input type="text" class="form-control" placeholder="Text to Decrypt..." id="ciphertextToDecrypt">
+
+          <button class="btn btn-dark" onclick="decrypt()">Decrypt</button>
+        </div>
+        <div class="col-md-6">
+          <br>
+          <p>Decrypted Text: <span id="decryptedText"></span></p>
+          <br>
+        </div>
+      </div>
+    </section>
+  </div>
 
   <script>
     let publicKey, privateKey;
